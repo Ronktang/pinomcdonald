@@ -13,3 +13,8 @@ You need to have the McDonald's app APK file. You can download it in two ways:
 
 ## Working example
 `./patch APK_FILE https://mcdapi-mod-server.herokuapp.com/`
+
+## Disclaimer
+This repository is against McDonald's ToS.
+
+This repository is not affiliated with McDonald's Corp in any way. "McDonald's" and "McDonald's Logo" are registered trademarks of McDonald's Corp.
