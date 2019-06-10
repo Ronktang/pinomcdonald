@@ -1,0 +1,14 @@
+# Environments
+venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# IntelliJ
+.idea/
+
+# Custom
+test.py
+build.sh
