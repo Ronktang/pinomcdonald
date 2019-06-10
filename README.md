@@ -12,7 +12,7 @@ You need to have the McDonald's app APK file. You can download it in two ways:
 `./patch APK_FILE TARGET_URL`
 
 ## Working example
-`./patch APK_FILE https://mcdapi-mod-server.herokuapp.com/`
+`./patch APK_FILE http://mcdapi-mod-server.herokuapp.com/`
 
 ## Disclaimer
 This repository is against McDonald's ToS.
