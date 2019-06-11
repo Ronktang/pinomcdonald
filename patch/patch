@@ -18,8 +18,6 @@
 # You can change these variables for customization #
 # ================================================ #
 
-# BUILD TIME: ~00:01:30
-
 # Output filename
 OUTPUT="mcdapi"
 
@@ -51,6 +49,7 @@ VERSION="0.1.0-alpha.1"
 KEYSTORE="mcdapi_mod.keystore"
 NAME=$(basename "${1}" .apk)
 TMPOUT=$(mktemp -d tmpdir.patch.XXXXXXXXXX) || { echo "Failed to create temp file"; exit 1; }
+FRAMEWORK="$(pwd)/bin"
 
 TARGET_FILE_1="${TMPOUT}/smali/co/vmob/sdk/network/a/a\$a.smali"
 TARGET_FILE_2="${TMPOUT}/smali_classes2/mcdonalds/dataprovider/apegroup/configuration/ApeConfigurationProvider.smali"
@@ -86,7 +85,7 @@ fi
 
 # Decompile
 echo -e "\e[94m[1] Decompiling...\e[0m"
-apktool d -f "${1}" -o "${TMPOUT}"
+apktool d -p "${FRAMEWORK}" -f "${1}" -o "${TMPOUT}"
 
 # Execute patch
 echo -e "\e[94m[2.1] Patching files...\e[0m"
@@ -150,7 +149,7 @@ rm -fr "${TMPOUT}/res/values-de-rAT/strings.xml"
 
 # Rebuild
 echo -e "\e[94m[3] Recompiling...\e[0m"
-apktool b "${TMPOUT}"
+apktool b -p "${FRAMEWORK}" "${TMPOUT}"
 
 # Sign and zipaling
 echo -e "\e[94m[4.1] Signing APK...\e[0m"
