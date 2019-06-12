@@ -16,7 +16,7 @@ You need to have the McDonald's app APK file. You can download it in three ways:
 #### Requirements
 1. Enable WSL by following the guide [here](https://aka.ms/wslinstall).
 2. Download Debian from the store.
-3. Run Debian and run these command: `sudo apt install git default-jdk`
+3. Run Debian and run these command: `sudo apt update && sudo apt install git default-jdk`
 
 ## Patching
 Now patch using these commands: (For the URL you can use this: `http://mcdapi-mod-server.herokuapp.com/`)
