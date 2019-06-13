@@ -136,6 +136,9 @@ echo -e "\e[94m[2.8] Changing version name...\e[0m"
 sed -i -E "s/platformBuildVersionName=\"(.*)\"/platformBuildVersionName=\"\1-mod-${VERSION}\"/g" "${TMPOUT}/AndroidManifest.xml"
 sed -i -E "s/versionName: (.*)/versionName: \1-mod-${VERSION}/g" "${TMPOUT}/apktool.yml"
 
+echo -e "\e[94m[2.9] Removing Certificate Pinning...\e[0m"
+sed -i "s+invoke-direct {v2, v1, v0}, Lcom/android/volley/a/j;-><init>(Lcom/android/volley/a/j\$b;Ljavax/net/ssl/SSLSocketFactory;)V+invoke-direct {v2}, Lcom/android/volley/a/j;-><init>()V+g" "${TMPOUT}/smali/co/vmob/sdk/network/e.smali"
+
 # Delete files that throw errors while recompiling
 # In these files there are some strings malformatted.
 rm -fr "${TMPOUT}/res/values-ar-rLB/strings.xml"
