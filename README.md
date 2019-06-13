@@ -20,14 +20,14 @@ You need to have the McDonald's app APK file. You can download it in three ways:
 3. Run Debian and run these command: `sudo apt update && sudo apt install git default-jdk`
 
 ## Patching
-Now patch using these commands: (For the URL you can use this: `http://mcdapi-mod-server.herokuapp.com/`)
+Now patch using these commands: (For the URL you can use this: `https://mcdapi-mod-server.herokuapp.com/`)
 ```bash
 git clone https://github.com/giacomoferretti/mcdapi-app-mod
 cd mcdapi-app-mod/patch
 ./patch /mnt/c/Users/[USER]/Downloads/[APK] [URL]
 ```
 
-To get the modded APK in Windows from the Debian WSL run this command: `cp mcdapi-mod-0.1.0-alpha.1.apk /mnt/c/Users/[USER]/Desktop`
+_Only if you are using Debian WSL:_ To get the modded APK to the Desktop run this command: `cp mcdapi-mod-0.1.0-alpha.1.apk /mnt/c/Users/[USER]/Desktop`
 
 ## Disclaimer
 This repository is against McDonald's ToS.
