@@ -45,7 +45,7 @@ KEYSTORE_ALIAS="mcdapi_keystore"
 # Add the necessary tools to PATH
 export PATH="$PATH:$(pwd)/bin"
 
-VERSION="0.1.0-alpha.1"
+VERSION="0.1.0-alpha.2"
 KEYSTORE="mcdapi_mod.keystore"
 NAME=$(basename "${1}" .apk)
 TMPOUT=$(mktemp -d tmpdir.patch.XXXXXXXXXX) || { echo "Failed to create temp file"; exit 1; }
