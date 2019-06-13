@@ -1,4 +1,5 @@
 # mcdapi-app-mod
+![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/giacomoferretti/mcdapi-app-mod.svg?color=blue&label=Stable)
 
 ## Requirements
 You need to have the McDonald's app APK file. You can download it in three ways:
