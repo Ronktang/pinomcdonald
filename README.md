@@ -27,7 +27,7 @@ cd mcdapi-app-mod/patch
 ./patch /mnt/c/Users/[USER]/Downloads/[APK] [URL]
 ```
 
-_Only if you are using Debian WSL:_ To get the modded APK to the Desktop run this command: `cp mcdapi-mod-0.1.0-alpha.1.apk /mnt/c/Users/[USER]/Desktop`
+_Only if you are using Debian WSL:_ To get the modded APK to the Desktop run this command: `cp mcdapi-mod-0.1.0-alpha.2.apk /mnt/c/Users/[USER]/Desktop`
 
 ## Disclaimer
 This repository is against McDonald's ToS.
