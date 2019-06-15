@@ -1,0 +1,167 @@
+#!/bin/bash
+
+#  Copyright 2019 Giacomo Ferretti
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+# ================================================ #
+# You can change these variables for customization #
+# ================================================ #
+
+# Output filename
+OUTPUT="mcdapi"
+
+# Package
+PACKAGE="xyz.hexile.mcdapi"
+
+# App name
+APP_NAME="McD API"
+
+# Change app icon
+CHANGE_APP_ICON=true
+
+# If you set this to true a debug keystore will be used to sign.
+# NOTE: If you set this to true and you don't have a Custom ROM or a "developer" phone, you won't be able to install the apk.
+SIGN_DEBUG=false
+
+# Keystore passwords
+KEYSTORE_PASS="mcdapi_key_password"
+KEYSTORE_ALIAS="mcdapi_keystore"
+
+# =============================== #
+# === DO NOT EDIT BEYOND THIS === #
+# =============================== #
+
+# Add the necessary tools to PATH
+export PATH="$PATH:$(pwd)/bin"
+
+VERSION="0.1.0-alpha.2"
+KEYSTORE="mcdapi_mod.keystore"
+NAME=$(basename "${1}" .apk)
+TMPOUT=$(mktemp -d tmpdir.patch.XXXXXXXXXX) || { echo "Failed to create temp file"; exit 1; }
+FRAMEWORK="$(pwd)/bin"
+
+TARGET_FILE_1="${TMPOUT}/smali/co/vmob/sdk/network/a/a\$a.smali"
+TARGET_FILE_2="${TMPOUT}/smali_classes2/mcdonalds/dataprovider/apegroup/configuration/ApeConfigurationProvider.smali"
+TARGET_FILE_3="${TMPOUT}/smali_classes2/mcdonalds/dataprovider/apegroup/marketpicker/ApeMarketPickerDataProvider.smali"
+
+echo -e "\e[92mMcD API\e[0m Patcher - ${VERSION}"
+
+# Check input variables
+if [[ -z "$1" ]]; then
+    echo -e "\e[91mYou have to pass a file.\e[0m"
+    echo "Usage: ./patch APK_PATH TARGET_URL"
+    rm -rf "${TMPOUT}"
+    exit 1
+fi
+if [[ -z "$2" ]]; then
+    echo -e "\e[91mYou have to pass a url.\e[0m"
+    echo "Usage: ./patch APK_PATH TARGET_URL"
+    rm -rf "${TMPOUT}"
+    exit 1
+fi
+
+# Check if keystore exists
+if [[ ! -f "${KEYSTORE}" ]]; then
+    if [[ "${SIGN_DEBUG}" = true ]]; then
+        KEYSTORE="debug_mod.keystore"
+        echo "Generating keystore: ${KEYSTORE}..."
+        keytool -genkeypair -alias androiddebugkey -keypass android -keystore "${KEYSTORE}" -storepass android -keyalg RSA -sigalg SHA1withRSA -dname "CN=Android Debug,O=Android,C=US" -validity 10000
+    else
+        echo "Generating keystore: ${KEYSTORE}..."
+        keytool -genkeypair -alias "${KEYSTORE_ALIAS}" -keypass "${KEYSTORE_PASS}" -keystore "${KEYSTORE}" -storepass "${KEYSTORE_PASS}" -keyalg RSA -sigalg SHA1withRSA -dname "CN=mcdapi,OU=mcdapi,O=mcdapi,L=mcdapi,ST=mcdapi,C=mcdapi" -validity 10000
+    fi
+fi
+
+# Decompile
+echo -e "\e[94m[1] Decompiling...\e[0m"
+apktool d -p "${FRAMEWORK}" -f "${1}" -o "${TMPOUT}"
+
+# Execute patch
+echo -e "\e[94m[2.1] Patching files...\e[0m"
+if [[ -f "${TARGET_FILE_1}" ]]; then
+    sed -i "s+https://%s-%s.vmobapps.com/v3+${2}%s-%s+g" "${TARGET_FILE_1}"
+else 
+    echo -e "\e[91m${TARGET_FILE_1}: File not found\e[0m"
+    rm -rf "${TMPOUT}"
+    exit 1
+fi
+
+echo -e "\e[94m[2.2] Patching files...\e[0m"
+if [[ -f "${TARGET_FILE_2}" ]]; then
+    sed -i "s+https://config-api-dot-prd-euw-gmal-mcdonalds.appspot.com/+${2}+g" "${TARGET_FILE_2}"
+else 
+    echo -e "\e[91m${TARGET_FILE_2}: File not found\e[0m"
+    rm -rf "${TMPOUT}"
+    exit 1
+fi
+
+echo -e "\e[94m[2.3] Patching files...\e[0m"
+if [[ -f "${TARGET_FILE_3}" ]]; then
+    sed -i "s+https://config-api-dot-prd-euw-gmal-mcdonalds.appspot.com/+${2}+g" "${TARGET_FILE_3}"
+else 
+    echo -e "\e[91m${TARGET_FILE_3}: File not found\e[0m"
+    rm -rf "${TMPOUT}"
+    exit 1
+fi
+
+#echo -e "\e[94m[2.4] Patching files...\e[0m"
+#sed -i "s/com.mcdonalds.mobileapp/${PACKAGE}/g" "${TMPOUT}/AndroidManifest.xml"
+#sed -i "s/renameManifestPackage: null/renameManifestPackage: xyz.hexile.mcdapi/g" "${TMPOUT}/apktool.yml"
+
+echo -e "\e[94m[2.5] Patching files...\e[0m"
+sed -i "s/\"McDonald's\"/\"${APP_NAME}\"/g" "${TMPOUT}/res/values/strings.xml"
+#sed -i -E "s/(apkFileName: ).*/\1mcdapi.apk/g" "apktool.yml"
+
+echo -e "\e[94m[2.6] Changing package name...\e[0m"
+find "${TMPOUT}" -type f ! -path '*/assets/*' ! -path '*/apktool.yml' -exec sed -i "s/com.mcdonalds.mobileapp/${PACKAGE}/g" {} +
+
+echo -e "\e[94m[2.7] Copying files...\e[0m"
+if [[ "${CHANGE_APP_ICON}" = true ]]; then
+    cp -rf patch_files/app_icon/* "${TMPOUT}/"
+fi
+cp -rf patch_files/icons/* "${TMPOUT}/"
+
+echo -e "\e[94m[2.8] Changing version name...\e[0m"
+sed -i -E "s/platformBuildVersionName=\"(.*)\"/platformBuildVersionName=\"\1-mod-${VERSION}\"/g" "${TMPOUT}/AndroidManifest.xml"
+sed -i -E "s/versionName: (.*)/versionName: \1-mod-${VERSION}/g" "${TMPOUT}/apktool.yml"
+
+echo -e "\e[94m[2.9] Removing Certificate Pinning...\e[0m"
+sed -i "s+invoke-direct {v2, v1, v0}, Lcom/android/volley/a/j;-><init>(Lcom/android/volley/a/j\$b;Ljavax/net/ssl/SSLSocketFactory;)V+invoke-direct {v2}, Lcom/android/volley/a/j;-><init>()V+g" "${TMPOUT}/smali/co/vmob/sdk/network/e.smali"
+
+# Delete files that throw errors while recompiling
+# In these files there are some strings malformatted.
+rm -fr "${TMPOUT}/res/values-ar-rLB/strings.xml"
+rm -fr "${TMPOUT}/res/values-ar-rAE/strings.xml"
+rm -fr "${TMPOUT}/res/values-sv-rSE/strings.xml"
+rm -fr "${TMPOUT}/res/values-ar-rEG/strings.xml"
+rm -fr "${TMPOUT}/res/values-de-rCH/strings.xml"
+rm -fr "${TMPOUT}/res/values-nb-rNO/strings.xml"
+rm -fr "${TMPOUT}/res/values-hr-rHR/strings.xml"
+rm -fr "${TMPOUT}/res/values-de-rAT/strings.xml"
+
+# Rebuild
+echo -e "\e[94m[3] Recompiling...\e[0m"
+apktool b -p "${FRAMEWORK}" "${TMPOUT}"
+
+# Sign and zipaling
+echo -e "\e[94m[4.1] Signing APK...\e[0m"
+jarsigner -keystore "${KEYSTORE}" -storepass "${KEYSTORE_PASS}" -keypass "${KEYSTORE_PASS}" -sigalg MD5withRSA -digestalg SHA1 -sigfile CERT -signedjar "${TMPOUT}/dist/${NAME}-patched-signed.apk" "${TMPOUT}/dist/${NAME}.apk" "${KEYSTORE_ALIAS}"
+
+echo -e "\e[94m[4.2] Zipaligning APK...\e[0m"
+zipalign -f 4 "${TMPOUT}/dist/${NAME}-patched-signed.apk" "${OUTPUT}-mod-${VERSION}.apk"
+
+# Remove working folder
+rm -rf "${TMPOUT}"
+
+echo -e "\e[32mDone!\e[0m"

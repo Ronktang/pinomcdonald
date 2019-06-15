@@ -1,5 +1,6 @@
-# mcdapi-app-mod
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/giacomoferretti/mcdapi-app-mod.svg?color=blue&label=Stable)
+
+# mcdapi-app-mod
 
 ## Requirements
 You need to have the McDonald's app APK file. You can download it in three ways:
@@ -7,27 +8,37 @@ You need to have the McDonald's app APK file. You can download it in three ways:
 2. Using an external site like [APK Mirror](https://www.apkmirror.com/apk/mcdonalds-apps/)
 3. Using an external site like [Evozi APK Downloader](https://apps.evozi.com/apk-downloader/)
 
+You can run the patch on Linux, macOS, Windows WSL and Android (Termux).
+
 ## Setup
 ### Linux
 #### Requirements
 * git
 * openjdk
 
+### macOS
+#### Requirements
+* I think none.
+
 ### Windows
 #### Requirements
 1. Enable WSL by following the guide [here](https://aka.ms/wslinstall).
-2. Download Debian from the store.
-3. Run Debian and run these command: `sudo apt update && sudo apt install git default-jdk`
+2. Download Debian or Ubuntu from the store.
+3. Run the installed WSL and run these command: `sudo apt update && sudo apt install git default-jdk`
 
-## Patching
-Now patch using these commands: (For the URL you can use this: `https://mcdapi-mod-server.herokuapp.com/`)
+## How to patch
+1. First clone this repository using `git clone https://github.com/giacomoferretti/mcdapi-app-mod`.
+2. Now cd in the `mcdapi-app-mod` folder.
+3. Now patch using the `./patch` script. 
+
+Example: (For the URL you can use this: `https://mcdapi-mod-server.herokuapp.com/`)
 ```bash
 git clone https://github.com/giacomoferretti/mcdapi-app-mod
-cd mcdapi-app-mod/patch
+cd mcdapi-app-mod
 ./patch /mnt/c/Users/[USER]/Downloads/[APK] [URL]
 ```
 
-_Only if you are using Debian WSL:_ To get the modded APK to the Desktop run this command: `cp mcdapi-mod-0.1.0-alpha.2.apk /mnt/c/Users/[USER]/Desktop`
+_Only if you are using WSL:_ To get the modded APK to the Desktop run this command: `cp mcdapi-mod-0.1.0-alpha.2.apk /mnt/c/Users/[USER]/Desktop`
 
 ## Disclaimer
 This repository is against McDonald's ToS.

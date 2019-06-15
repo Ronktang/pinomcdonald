@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+#  Copyright 2019 Giacomo Ferretti
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+# Name of the patch
+PATCH_NAME="AddVersionHeader"
+
+TARGET_FILE="${PATCH_FOLDER}/smali/co/vmob/sdk/network/d.smali"
+
+# Main function
+function patch {
+    sed -i "30a.field private static m:Ljava/lang/String;" "${TARGET_FILE}"
+    sed -i "79asput-object v0, Lco/vmob/sdk/network/d;->m:Ljava/lang/String;" "${TARGET_FILE}"
+    sed -i "148ainvoke-virtual {v0}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;\nmove-result-object v2\ninvoke-virtual {v2, v3, v4}, Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;\nmove-result-object v2\niget-object v2, v2, Landroid/content/pm/PackageInfo;->versionName:Ljava/lang/String;\nsput-object v2, Lco/vmob/sdk/network/d;->m:Ljava/lang/String;" "${TARGET_FILE}"
+    sed -i "480asget-object v0, Lco/vmob/sdk/network/d;->m:Ljava/lang/String;\nconst-string v2, \"x-vmob-application_version_name\"\ninvoke-interface {v1, v2, v0}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;" "${TARGET_FILE}"
+}
+
+info "Applying ${PATCH_NAME}..."
+patch
