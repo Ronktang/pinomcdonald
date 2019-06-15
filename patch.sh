@@ -26,12 +26,10 @@
 # 108: There was an error zipaligning the APK. Try again.
 # ============== #
 
-OUTPUT="mcdapi"
-
-OUTPUT_FILENAME="${OUTPUT}_mod_v23"
-
 PATCH_VERSION="1.0.0"
 PATCH_CODE="0001"
+
+OUTPUT_FILENAME="mcdapi_mod_${PATCH_VERSION}_${PATCH_CODE}"
 
 KEYSTORE="mcdapi_mod.keystore"
 KEYSTORE_PASS="mcdapi_key_password"
