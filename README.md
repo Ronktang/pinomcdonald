@@ -29,13 +29,13 @@ You can run the patch on Linux, macOS, Windows WSL and Android (Termux).
 ## How to patch
 1. First clone this repository using `git clone https://github.com/giacomoferretti/mcdapi-app-mod`.
 2. Now cd in the `mcdapi-app-mod` folder.
-3. Now patch using the `./patch` script. 
+3. Now patch using the `./patch.sh` script. 
 
 Example: (For the URL you can use this: `https://mcdapi-mod-server.herokuapp.com/`)
 ```bash
 git clone https://github.com/giacomoferretti/mcdapi-app-mod
 cd mcdapi-app-mod
-./patch /mnt/c/Users/[USER]/Downloads/[APK] [URL]
+./patch.sh /mnt/c/Users/[USER]/Downloads/[APK] [URL]
 ```
 
 _Only if you are using WSL:_ To get the modded APK to the Desktop run this command: `cp mcdapi-mod-0.1.0-alpha.2.apk /mnt/c/Users/[USER]/Desktop`
