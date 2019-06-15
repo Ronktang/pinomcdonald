@@ -111,7 +111,6 @@ rm -fr "${PATCH_FOLDER}/res/values-nb-rNO/strings.xml"
 rm -fr "${PATCH_FOLDER}/res/values-hr-rHR/strings.xml"
 rm -fr "${PATCH_FOLDER}/res/values-de-rAT/strings.xml"
 
-read
 # Rebuild
 info "Recompiling..."
 apktool b -p "${FRAMEWORK}" "${PATCH_FOLDER}" || error "There was an error recompiling the apk." 104
