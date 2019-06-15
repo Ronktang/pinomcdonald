@@ -29,6 +29,7 @@ You can run the patch on Linux, macOS, Windows WSL and Android (Termux).
 ### Android (Termux)
 #### Requirements
 1. Download Termux from the Play Store.
+2. Give 'Storage' permission to Termux.
 2. Run the commands on this repo: https://github.com/MasterDevX/Termux-Java.
 3. Install `git`: `pkg install git`
 
