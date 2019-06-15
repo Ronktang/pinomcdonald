@@ -26,6 +26,12 @@ You can run the patch on Linux, macOS, Windows WSL and Android (Termux).
 2. Download Debian or Ubuntu from the store.
 3. Run the installed WSL and run these command: `sudo apt update && sudo apt install git default-jdk`
 
+### Android (Termux)
+#### Requirements
+1. Download Termux from the Play Store.
+2. Run the commands on this repo: https://github.com/MasterDevX/Termux-Java.
+3. Install `git`: `pkg install git`
+
 ## How to patch
 1. First clone this repository using `git clone https://github.com/giacomoferretti/mcdapi-app-mod`.
 2. Now cd in the `mcdapi-app-mod` folder.
