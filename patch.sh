@@ -82,7 +82,7 @@ info "Patching \e[92m${1}\e[94m with \e[92m${2}"
 
 # Generate keystore
 if [[ ! -f "${KEYSTORE}" ]]; then
-    INFO "Generating keystore: ${KEYSTORE}..."
+    info "Generating keystore: ${KEYSTORE}..."
     keytool -genkeypair -alias "${KEYSTORE_ALIAS}" -keypass "${KEYSTORE_PASS}" -keystore "${KEYSTORE}" -storepass "${KEYSTORE_PASS}" -keyalg RSA -sigalg SHA1withRSA -dname "CN=mcdapi,OU=mcdapi,O=mcdapi,L=mcdapi,ST=mcdapi,C=mcdapi" -validity 10000
 fi
 
