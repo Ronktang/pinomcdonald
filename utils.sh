@@ -23,7 +23,7 @@ function warning {
 }
 
 function error {
-    echo -e "\e[91m[E${2}] ${1}\e[0m"
+    echo -e "\n\e[91m[E${2}] ${1}\e[0m"
     cleanup
     exit "${2}"
 }
