@@ -1,3 +1,8 @@
+## 1.0.1
+### New
+* Added "AddMenuEntry" patch
+* Added command arguments
+
 ## 1.0.0
 ### New
 * New modular patch system.
