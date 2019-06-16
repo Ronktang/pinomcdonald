@@ -26,8 +26,8 @@
 # 108: There was an error zipaligning the APK. Try again.
 # ============== #
 
-PATCH_VERSION="1.0.0"
-PATCH_CODE="0001"
+PATCH_VERSION="1.0.1"
+PATCH_CODE="0002"
 
 OUTPUT_FILENAME="mcdapi_mod_${PATCH_VERSION}_${PATCH_CODE}"
 
@@ -42,12 +42,39 @@ KEYSTORE_ALIAS="mcdapi_keystore"
 echo -e "# ===================================== #"
 echo -e "| \e[92mMcD API Patcher\e[0m - developed by Hexile |"
 echo -e "# ===================================== #"
-echo -e "  \e[94m${PATCH_VERSION}\e[0m"
+echo -e "  \e[94m${PATCH_VERSION} - ${PATCH_CODE}\e[0m"
+
+COMMAND_USAGE="
+Usage:
+./$(basename "${0}") [-h|--help] [-k|--keep-folder] <APK_PATH> <TARGET_URL>
+"
+
+# Argument parser
+POSITIONAL=()
+while [[ ${#} -gt 0 ]]; do
+    key="$1"
+
+    case ${key} in
+        -h|--help)
+        echo "${COMMAND_USAGE}"
+        exit
+        ;;
+        -k|--keep-folder)
+        KEEP_FOLDER=true
+        shift
+        ;;
+        *)
+        POSITIONAL+=("$1")
+        shift
+        ;;
+    esac
+done
+set -- "${POSITIONAL[@]}"
 
 source utils.sh
 
 FRAMEWORK="$(pwd)/bin"
-PATCH_FOLDER=$(mktemp -d tmpdir.patch.XXXXXXXXXX) || error "Failed to create temp folder." 101
+PATCH_FOLDER=$(mktemp -d tmp.patch.XXXXXXXXXX) || error "Failed to create temp folder." 101
 
 # Add necessary tools to PATH
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -64,8 +91,10 @@ check_command sed
 
 # Check input variables
 if [[ -z "${1}" || -z "${2}" ]]; then
-    error "Missing an argument.\e[0m\nUsage: ./patch <APK_PATH> <TARGET_URL>" 100
+    error "Missing an argument.\e[0m${COMMAND_USAGE}" 100
 fi
+
+echo -e "\n\e[94mFile path:\e[0m ${1}\n\e[94mTarget URL:\e[0m ${2}"
 
 # Check if input file exists
 if [[ ! -f "${1}" ]]; then
@@ -75,8 +104,6 @@ fi
 NAME=$(basename "${1}" .apk)
 
 print_apk_info "${1}"
-
-info "Patching \e[92m${1}\e[94m with \e[92m${2}"
 
 # Generate keystore
 if [[ ! -f "${KEYSTORE}" ]]; then
@@ -121,7 +148,9 @@ info "Zipaligning APK..."
 zipalign -f 4 "${PATCH_FOLDER}/dist/${NAME}-patched-signed.apk" "${OUTPUT_FILENAME}.apk" || error "There was an error zipaligning the APK." 108
 
 # Final cleanup
-cleanup
+if [[ "${KEEP_FOLDER}" != true ]]; then
+    cleanup
+fi
 
 print_apk_info "${OUTPUT_FILENAME}.apk"
 
