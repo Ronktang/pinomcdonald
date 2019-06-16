@@ -42,10 +42,10 @@ Example: (For the URL you can use this: `https://mcdapi-mod-server.herokuapp.com
 ```bash
 git clone https://github.com/giacomoferretti/mcdapi-app-mod
 cd mcdapi-app-mod
-./patch.sh /mnt/c/Users/[USER]/Downloads/[APK] [URL]
+./patch.sh <APK_PATH> <TARGET_URL>
 ```
 
-_Only if you are using WSL:_ To get the modded APK to the Desktop run this command: `cp mcdapi-mod-0.1.0-alpha.2.apk /mnt/c/Users/[USER]/Desktop`
+_Only if you are using WSL:_ To get the modded APK to the Desktop run this command: `cp *.apk /mnt/c/Users/[USER]/Desktop`
 
 ## Disclaimer
 This repository is against McDonald's ToS.
