@@ -20,6 +20,7 @@
 # ${PATCH_VERSION} -
 # ${PATCH_CODE} -
 # ${PATCH_FOLDER} -
+# ${TARGET_URL} -
 
 # =============== #
 #  App variables  #
