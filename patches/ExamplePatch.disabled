@@ -14,11 +14,28 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+# =============== #
+# Patch variables #
+# =============== #
+# ${PATCH_VERSION} -
+# ${PATCH_CODE} -
+# ${PATCH_FOLDER} -
+
+# =============== #
+#  App variables  #
+# =============== #
+# ${APP_LABEL} -
+# ${PACKAGE_NAME} -
+# ${VERSION_CODE} -
+# ${VERSION_NAME} -
+# ${SUPPORTED_ARCHS} -
+
 # Name of the patch
 PATCH_NAME="ExamplePatch"
 
 # Main function
 function patch {
+    echo "This is an example patch."
 }
 
 info "Applying ${PATCH_NAME}..."
