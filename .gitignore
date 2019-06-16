@@ -8,3 +8,7 @@ dist/
 
 # IntelliJ
 .idea/
+
+# Custom
+*.apk
+*.keystore
