@@ -12,3 +12,4 @@ dist/
 # Custom
 *.apk
 *.keystore
+tmp.patch.*/
