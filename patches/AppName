@@ -19,7 +19,7 @@ PATCH_NAME="AppName"
 
 TARGET_FILE="${PATCH_FOLDER}/res/values/strings.xml"
 
-NEW_NAME="McD API"
+NEW_NAME="McDonald's"
 
 # Main function
 function patch {
